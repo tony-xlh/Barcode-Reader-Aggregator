@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Test</title>
+  </head>
+  <body>
+    <div>
+      Engine:
+      <select class="engine-select"></select>
+    </div>
+    <div>
+      Load local image:
+      <input type="file" id="file" onchange="loadImageFromFile();" accept=".jpg,.jpeg,.png,.bmp" />
+      <button onclick="decode()" class="decode-button">Decode</button>
+    </div>
+    <div>
+      <svg id="resultSVG" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <style>
+      .barcode-polygon {
+        fill:rgba(85,240,40,0.4);
+        stroke:green;
+        stroke-width:5;
+      }
+      
+      .barcode-polygon:hover {
+        fill:rgba(85,240,40,0.6);
+        stroke:green;
+        stroke-width:5;
+      }
+  
+      #resultSVG {
+        max-width: 500px;
+      }
+      </style>
+  </body>
+  <script>
+    let img;
+
+    window.onload = function(){
+      loadEngines();
+    }
+
+    function loadImageFromFile() { 
+      let files = document.getElementById('file').files;
+      if (files.length == 0) {
+        return;
+      }
+      let file = files[0];
+      fileReader = new FileReader();
+      fileReader.onload = function(e){
+        loadImage(e.target.result);
+      };
+      fileReader.onerror = function () {
+        console.warn('oops, something went wrong.');
+      };
+      fileReader.readAsDataURL(file);
+    }
+
+    function loadImage(imgsrc){
+      img = new Image();
+      img.src = imgsrc;
+      img.onload = function(){
+        let svgElement = document.getElementById("resultSVG");
+        svgElement.innerHTML = "";
+        let svgImage = document.createElementNS("http://www.w3.org/2000/svg", "image");
+        svgImage.setAttribute("href",imgsrc);
+        svgElement.setAttribute("viewBox","0 0 "+img.width+" "+img.height);
+        svgElement.appendChild(svgImage);
+      }
+    }
+
+    function loadEngines(){
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', '/getEngines');
+      xhr.onreadystatechange = function(){
+        if(xhr.readyState === 4){
+          console.log(xhr.responseText);
+          let engines = JSON.parse(xhr.responseText);
+          for (let index = 0; index < engines.length; index++) {
+            const engine = engines[index];
+            let option = new Option();
+            option.value = engine;
+            option.text = engine;
+            document.getElementsByClassName("engine-select")[0].appendChild(option);
+          }
+          document.getElementsByClassName("engine-select")[0].selectedIndex = 0;
+        }
+      }
+      xhr.onerror = function(){
+        console.log("error");
+      }
+      xhr.send();
+    }
+
+    function decode(){
+      let engine = document.getElementsByClassName("engine-select")[0];
+      let payload = {engine:engine,base64:removeDataURLHead(img.src)};
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', '/readBarcodes');
+      xhr.setRequestHeader('content-type', 'application/json'); 
+      xhr.onreadystatechange = function(){
+        if(xhr.readyState === 4){
+          console.log(xhr.responseText);
+          let response = JSON.parse(xhr.responseText)
+          overlayResults(response.results);
+        }
+      }
+      xhr.onerror = function(){
+        console.log("error");
+      }
+      xhr.send(JSON.stringify(payload));
+    }
+
+    function removeDataURLHead(dataURL){
+      return dataURL.substring(dataURL.indexOf(",")+1,dataURL.length);
+    }
+
+    function overlayResults(results){
+      let svgElement = document.getElementById("resultSVG");
+      clearElements(svgElement,"polygon");
+      for (let i = 0; i < results.length; i++) {
+        const result = results[i];
+        let a = document.createElementNS("http://www.w3.org/2000/svg","a");
+        let polygon = document.createElementNS("http://www.w3.org/2000/svg","polygon");
+        polygon.setAttribute("points",getPointsData(result));
+        polygon.setAttribute("class","barcode-polygon");
+        let title = document.createElementNS("http://www.w3.org/2000/svg","title");
+        title.textContent = result.barcodeFormat + ": " + result.barcodeText;
+        polygon.append(title);
+        a.append(polygon)
+        svgElement.append(a);
+      }
+    }
+
+    function getPointsData(result) {
+      let pointsData = result.x1 + "," + result.y1 + " ";
+      pointsData = pointsData + result.x2 + "," + result.y2 +" ";
+      pointsData = pointsData + result.x3 + "," + result.y3 +" ";
+      pointsData = pointsData + result.x4 + "," + result.y4;
+      return pointsData;
+    }
+
+    function clearElements(parent,tagName){
+      let elements=parent.getElementsByTagName(tagName);
+      while (elements.length>0){
+        let ele=elements[0];
+        ele.remove();
+      }
+    }
+  </script>
+</html>
