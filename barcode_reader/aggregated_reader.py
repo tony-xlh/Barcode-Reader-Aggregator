@@ -11,9 +11,13 @@ class AggregatedReader():
         if self.engine == "dynamsoft" or self.engine == "":
             from barcode_reader.dynamsoft import DynamsoftBarcodeReader
             self.reader = DynamsoftBarcodeReader()
+        elif self.engine == "libdmtx":
+            from barcode_reader.libdmtx import LibDMTXReader
+            self.reader = LibDMTXReader()
+        
             
     def get_engines(self):
-        return ["dynamsoft"]
+        return ["dynamsoft","libdmtx"]
 
     def decode_bytes(self, file_bytes):
         start_time = time.time()

@@ -20,15 +20,19 @@ engine = ""
 @app.route('/readBarcodes', methods=['GET', 'POST'])
 @cross_origin()
 def read_barcodes():
+    global engine
+    global reader
     if request.method == 'POST':
         data = request.get_json()
+        
         if 'engine' in data:
             if data['engine'] != engine:
+                engine = data['engine']
                 reader = aggregated_reader.AggregatedReader(engine=engine)
         if 'base64' in data:
             bytes_decoded = base64.b64decode(data['base64'])
             start_time = time.time()
-            response=reader.decode_bytes(bytes_decoded)
+            response = reader.decode_bytes(bytes_decoded)
             end_time = time.time()
             elapsed_time = int((end_time - start_time) * 1000)
             response["elapsedTime"] = elapsed_time
