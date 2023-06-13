@@ -11,20 +11,22 @@ class LibDMTXReader():
     def decode_file(self, img_path):
         result_dict = {}
         results = []
-        text_results = decode(Image.open(img_path))
-        self.wrap_results(results,text_results)
+        img = Image.open(img_path)
+        text_results = decode(img)
+        self.wrap_results(results,text_results,img)
         result_dict["results"] = results
         return result_dict
         
     def decode_bytes(self, img_bytes):
         result_dict = {}
         results = []
-        text_results = decode(Image.open(BytesIO(img_bytes)))
-        self.wrap_results(results,text_results)
+        img = Image.open(BytesIO(img_bytes))
+        text_results = decode(img)
+        self.wrap_results(results,text_results,img)
         result_dict["results"] = results
         return result_dict
         
-    def wrap_results(self,results,text_results):
+    def wrap_results(self,results,text_results,img):
         if text_results==None:
             return
         for tr in text_results:
@@ -34,9 +36,9 @@ class LibDMTXReader():
             result["barcodeText"] = tr.data.decode()
             result["barcodeBytes"] = str(base64.b64encode(tr.data))[2:-1]
             left=tr.rect.left
-            top=tr.rect.top
+            top=img.height - (tr.rect.top + tr.rect.height)
             right=left + tr.rect.width
-            bottom=top + tr.rect.height
+            bottom=img.height - tr.rect.top
             result["x1"] = left
             result["y1"] = top
             result["x2"] = right
