@@ -8,16 +8,19 @@ class AggregatedReader():
         self.init_reader()
         
     def init_reader(self):
-        if self.engine == "dynamsoft" or self.engine == "":
+        if self.engine == "Dynamsoft" or self.engine == "":
             from barcode_reader.dynamsoft import DynamsoftBarcodeReader
             self.reader = DynamsoftBarcodeReader()
-        elif self.engine == "libdmtx":
+        elif self.engine == "LibDMTX":
             from barcode_reader.libdmtx import LibDMTXReader
             self.reader = LibDMTXReader()
+        elif self.engine == "ZXingCPP":
+            from barcode_reader.zxingcpp import ZXingBarcodeReader
+            self.reader = ZXingBarcodeReader()
         
             
     def get_engines(self):
-        return ["dynamsoft","libdmtx"]
+        return ["Dynamsoft","LibDMTX","ZXingCPP"]
 
     def decode_bytes(self, file_bytes):
         start_time = time.time()
