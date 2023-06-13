@@ -96,7 +96,7 @@
     }
 
     function decode(){
-      let engine = document.getElementsByClassName("engine-select")[0];
+      let engine = document.getElementsByClassName("engine-select")[0].selectedOptions[0].value;
       let payload = {engine:engine,base64:removeDataURLHead(img.src)};
       let xhr = new XMLHttpRequest();
       xhr.open('POST', '/readBarcodes');
@@ -111,6 +111,7 @@
       xhr.onerror = function(){
         console.log("error");
       }
+      console.log(payload);
       xhr.send(JSON.stringify(payload));
     }
 
