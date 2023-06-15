@@ -1,0 +1,7 @@
+dbr==9.6.20
+Flask==2.3.2
+Flask_Cors==3.0.10
+Pillow==9.5.0
+pylibdmtx==0.1.10
+Requests==2.31.0
+zxing-cpp==2.0.0
