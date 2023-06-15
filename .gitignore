@@ -1,3 +1,6 @@
 *.pyc
 uploaded
 .vercel
+*.jpg
+*.png
+*.bmp

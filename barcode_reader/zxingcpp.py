@@ -12,7 +12,7 @@ class ZXingBarcodeReader():
     def decode_file(self, img_path):
         result_dict = {}
         results = []
-        text_results = zxingcpp.read_barcodes(Image.open(img_path))
+        text_results = zxingcpp.read_barcodes(Image.open(img_path),formats=zxingcpp.BarcodeFormat.DataMatrix)
         self.wrap_results(results, text_results)
         result_dict["results"] = results
         return result_dict
@@ -20,7 +20,7 @@ class ZXingBarcodeReader():
     def decode_bytes(self, img_bytes):
         result_dict = {}
         results = []
-        text_results = zxingcpp.read_barcodes(Image.open(BytesIO(img_bytes)))
+        text_results = zxingcpp.read_barcodes(Image.open(BytesIO(img_bytes)),formats=zxingcpp.BarcodeFormat.DataMatrix)
         self.wrap_results(results, text_results)
         result_dict["results"] = results
         return result_dict
