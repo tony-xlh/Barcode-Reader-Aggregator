@@ -1,0 +1,51 @@
+{
+  "ImageParameter": {
+    "BarcodeFormatIds": [
+      "BF_DATAMATRIX"
+    ],
+    "BarcodeFormatIds_2": [],
+    "BinarizationModes": [
+      {
+        "Mode": "BM_LOCAL_BLOCK"
+      },
+      {
+        "Mode": "BM_LOCAL_BLOCK",
+        "BlockSizeX": 15,
+        "BlockSizeY": 15,
+        "EnableFillBinaryVacancy": 0
+      }
+    ],
+    "DPMCodeReadingModes": [
+      {
+        "Mode": "DPMCRM_GENERAL"
+      }
+    ],
+    "ExpectedBarcodesCount": 999,
+    "FormatSpecificationNameArray": [
+      "default"
+    ],
+    "ImagePreprocessingModes": [
+      {
+        "Mode": "IPM_GENERAL"
+      },
+      {
+        "LibraryFileName": "",
+        "LibraryParameters": "",
+        "Mode": "IPM_GRAY_EQUALIZE",
+        "Sensitivity": 5
+      },
+      {
+        "LibraryFileName": "",
+        "LibraryParameters": "",
+        "Mode": "IPM_GRAY_SMOOTH",
+        "SmoothBlockSizeX": 3,
+        "SmoothBlockSizeY": 3
+      }
+    ],
+    "Name": "Settings"
+  },
+  "Version": "3.0",
+  "FormatSpecification": {
+    "Name": "default"
+  }
+}

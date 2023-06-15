@@ -19,6 +19,9 @@ class DynamsoftBarcodeReader():
         if error[0] != EnumErrorCode.DBR_OK:
             logging.warning("License error: "+ error[1])
         self.dbr = BarcodeReader()
+        if os.path.exists("template.json"):
+            print("Found template")
+            error = self.dbr.init_runtime_settings_with_file("template.json")
         
     def decode_file(self, img_path):
         result_dict = {}
