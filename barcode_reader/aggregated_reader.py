@@ -23,10 +23,19 @@ class AggregatedReader():
         elif self.engine == "AppleVision":
             from barcode_reader.http_barcodereader import HTTPBarcodeReader
             self.reader = HTTPBarcodeReader(sdk="AppleVision")
+        elif self.engine == "Dynamsoft-iOS":
+            from barcode_reader.http_barcodereader import HTTPBarcodeReader
+            self.reader = HTTPBarcodeReader(sdk="DBR")
+        elif self.engine == "ZXingObjc":
+            from barcode_reader.http_barcodereader import HTTPBarcodeReader
+            self.reader = HTTPBarcodeReader(sdk="ZXing")
+        elif self.engine == "Scandit":
+            from barcode_reader.http_barcodereader import HTTPBarcodeReader
+            self.reader = HTTPBarcodeReader(sdk="Scandit")
         
             
     def get_engines(self):
-        return ["Dynamsoft","LibDMTX","ZXingCPP","MLKit","AppleVision"]
+        return ["Dynamsoft","LibDMTX","ZXingCPP","MLKit","AppleVision","Dynamsoft-iOS","ZXingObjc","Scandit"]
 
     def decode_bytes(self, file_bytes):
         start_time = time.time()

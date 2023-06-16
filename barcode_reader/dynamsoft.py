@@ -46,6 +46,8 @@ class DynamsoftBarcodeReader():
             result = {}
             result["barcodeFormat"] = tr.barcode_format_string
             result["barcodeText"] = tr.barcode_text
+            if tr.barcode_text == "Warning: Character set invalid, please convert the BarcodeBytes manually.":
+                result["barcodeText"] = self.try_decode_text(tr)
             result["barcodeBytes"] = str(base64.b64encode(tr.barcode_bytes))[2:-1]
             result["confidence"] = tr.extended_results[0].confidence
             points = tr.localization_result.localization_points
@@ -58,12 +60,22 @@ class DynamsoftBarcodeReader():
             result["x4"] =points[3][0]
             result["y4"] =points[3][1]
             results.append(result)
+            
+    def try_decode_text(self,tr):
+        text = tr.barcode_text
+        encodings = ["iso8859-2"]
+        for encoding in encodings:
+            try:
+                text = tr.barcode_bytes.decode(encoding)
+            except:
+                print(encoding+" not correct.")
+        return text
         
 if __name__ == '__main__':
     import time
     reader = DynamsoftBarcodeReader()
     start_time = time.time()
-    results = reader.decode_file("../AllSupportedBarcodeTypes.png")
+    results = reader.decode_file("Special_0008.jpg")
     end_time = time.time()
     elapsedTime = int((end_time - start_time) * 1000)
     print(results)
