@@ -19,7 +19,7 @@ class HTTPBarcodeReader():
     def decode_file(self, img_path):
         with open(img_path, "rb") as img_file:
             b64_string = base64.b64encode(img_file.read())
-        dic = {'base64':b64_string.decode("utf-8"),'sdk':self.sdk}
+        dic = {'base64':b64_string.decode("utf-8"),'sdk':self.sdk,'SDK':self.sdk} #use SDK for compatibility
         if self.template != "":
             dic['template'] = self.template
         r = requests.post(self.url, json = dic)
@@ -28,7 +28,7 @@ class HTTPBarcodeReader():
         
     def decode_bytes(self, img_bytes):
         b64_string = base64.b64encode(img_bytes)
-        dic = {'base64':b64_string.decode("utf-8"),'sdk':self.sdk}
+        dic = {'base64':b64_string.decode("utf-8"),'sdk':self.sdk,'SDK':self.sdk}
         if self.template != "":
             dic['template'] = self.template
         r = requests.post(self.url, json = dic)
