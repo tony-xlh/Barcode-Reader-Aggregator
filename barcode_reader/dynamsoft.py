@@ -63,7 +63,7 @@ class DynamsoftBarcodeReader():
             
     def try_decode_text(self,tr):
         text = tr.barcode_text
-        encodings = ["iso8859-2"]
+        encodings = ["iso8859-2","JIS"]
         for encoding in encodings:
             try:
                 text = tr.barcode_bytes.decode(encoding)
