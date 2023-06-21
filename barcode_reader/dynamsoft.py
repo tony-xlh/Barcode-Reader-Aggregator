@@ -13,6 +13,7 @@ class DynamsoftBarcodeReader():
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
         DBR_license = os.environ.get('DBRLicense')
+        DBR_license = "t0072oQAAAEZIkmXUacSJenD1+GRnLestohlfQZbwF4n4M7u4aTw3CFYcFuP2fZyT3BECCDVDV7etSbn7YzrS7hqMW4mMudnRgSJG"
         if DBR_license == None:
             DBR_license = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ=="
         error = BarcodeReader.init_license(DBR_license)

@@ -1,0 +1,11 @@
+{
+  "ImageParameter": {
+    "BarcodeFormatIds": [
+      "BF_QR_CODE"
+    ],
+    "BarcodeFormatIds_2": [],
+    "Name": "Settings",
+    "ScaleDownThreshold": 9999
+  },
+  "Version": "3.0"
+}

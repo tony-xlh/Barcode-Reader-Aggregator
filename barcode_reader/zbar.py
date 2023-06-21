@@ -1,4 +1,4 @@
-from pyzbar.pyzbar import decode
+from pyzbar.pyzbar import decode, ZBarSymbol
 from io import BytesIO
 from PIL import Image
 import base64
@@ -11,7 +11,7 @@ class ZBarBarcodeReader():
     def decode_file(self, img_path):
         result_dict = {}
         results = []
-        text_results = decode(Image.open(img_path))
+        text_results = decode(Image.open(img_path), symbols=[ZBarSymbol.QRCODE])
         self.wrap_results(results, text_results)
         result_dict["results"] = results
         return result_dict
@@ -19,7 +19,7 @@ class ZBarBarcodeReader():
     def decode_bytes(self, img_bytes):
         result_dict = {}
         results = []
-        text_results = decode(Image.open(BytesIO(img_bytes)))
+        text_results = decode(Image.open(BytesIO(img_bytes)), symbols=[ZBarSymbol.QRCODE])
         self.wrap_results(results, text_results)
         result_dict["results"] = results
         return result_dict
