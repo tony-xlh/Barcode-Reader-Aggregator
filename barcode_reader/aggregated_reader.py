@@ -26,6 +26,9 @@ class AggregatedReader():
         elif self.engine == "BoofCV":
             from barcode_reader.http_barcodereader import HTTPBarcodeReader
             self.reader = HTTPBarcodeReader(sdk="BoofCV",url="http://127.0.0.1:51041/readBarcodes")
+        elif self.engine == "Accusoft":
+            from barcode_reader.http_barcodereader import HTTPBarcodeReader
+            self.reader = HTTPBarcodeReader(sdk="Accusoft",url="http://127.0.0.1:51041/readBarcodes")
         elif self.engine == "ZXing":
             from barcode_reader.http_barcodereader import HTTPBarcodeReader
             self.reader = HTTPBarcodeReader(sdk="ZXing",url="http://127.0.0.1:51041/readBarcodes")
@@ -47,7 +50,7 @@ class AggregatedReader():
         
             
     def get_engines(self):
-        return ["Dynamsoft","LibDMTX","ZXingCPP","ZBar","OpenCV WeChat","ZXing","BoofCV","MLKit","AppleVision","Dynamsoft-iOS","ZXingObjc","Scandit"]
+        return ["Dynamsoft","LibDMTX","ZXingCPP","ZBar","OpenCV WeChat","ZXing","Accusoft","BoofCV","MLKit","AppleVision","Dynamsoft-iOS","ZXingObjc","Scandit"]
 
     def decode_bytes(self, file_bytes):
         start_time = time.time()
