@@ -7,3 +7,4 @@ Pillow==9.5.0
 pylibdmtx==0.1.10
 pyzbar==0.1.9
 Requests==2.31.0
+aspose_barcode_for_python_via_net==24.10

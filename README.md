@@ -9,6 +9,7 @@ It has the following SDKs included:
 3. ZXingCPP
 4. ZBar
 5. OpenCV WeChat QRCode Detector
+6. Aspose
 
 Extra SDKs are supported via HTTP.
 
