@@ -3,6 +3,7 @@ import os
 import base64
 import platform
 import logging
+import io
 
 class AsposeBarcodeReader():
     def __init__(self):
@@ -20,7 +21,8 @@ class AsposeBarcodeReader():
     def decode_bytes(self, img_bytes):
         result_dict = {}
         results = []
-        self.reader.set_bar_code_image(img_bytes)
+        stream = io.BytesIO(img_bytes)
+        self.reader.set_bar_code_image(stream)
         barcodes =  self.reader.read_bar_codes()
         self.wrap_results(results,barcodes)
         result_dict["results"] = results
